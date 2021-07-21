@@ -14,7 +14,7 @@ export function ProteinForm() {
       <form onSubmit={onSubmit}>
         <div className="flex flex-col mx-10">
           <textarea
-            className="textarea border rounded mb-5 p-4 focus:border-blue-500"
+            className="textarea border rounded mb-5 p-4"
             rows="15"
             name="protein"
             value={protein}
