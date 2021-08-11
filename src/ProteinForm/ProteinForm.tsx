@@ -19,7 +19,7 @@ const Dropzone = ({ onDrop }: { onDrop: DropzoneOptions['onDrop'] }) => {
       <input {...getInputProps()} />
       <CloudUploadIcon className="h-20 w-20 text-shrimp" />
       <span className="text-gray-500">
-        Drag and drop the <span className="text-shrimp">.faa</span> protein file to scan for defense systems
+        Drag and drop your <span className="text-shrimp">.faa</span> protein file
       </span>
       <span className="text-gray-500 mt-1">or</span>
       <div>
@@ -63,7 +63,7 @@ export function ProteinForm() {
   return (
     <div className="container mx-auto">
       <form onSubmit={onSubmit}>
-        <div className="flex flex-col mx-10">
+        <div className="mx-10">
           {proteinFile ? (
             <SelectedFile fileName={proteinFile.name} resetFile={resetProtein} />
           ) : (
