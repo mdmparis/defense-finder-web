@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react'
 import { useDropzone, DropzoneOptions } from 'react-dropzone'
 import XIcon from '@heroicons/react/outline/XIcon'
 import CloudUploadIcon from '@heroicons/react/solid/CloudUploadIcon'
-import './ProteinForm.css'
 
 const Dropzone = ({ onDrop }: { onDrop: DropzoneOptions['onDrop'] }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -13,19 +12,18 @@ const Dropzone = ({ onDrop }: { onDrop: DropzoneOptions['onDrop'] }) => {
   return (
     <div
       {...getRootProps()}
-      className={`flex flex-col items-center py-10 px-4 border mb-4 cursor-pointer rounded ${
-        isDragActive ? 'border-dashed border-gray-400' : 'bg-gray-100'
+      className={`flex flex-col items-center py-10 px-4 border mb-4 cursor-pointer rounded border-shrimp border-dashed ${
+        isDragActive ? 'bg-beige' : ''
       }`}
     >
       <input {...getInputProps()} />
-      <CloudUploadIcon className="h-20 w-20 text-gray-500" />
+      <CloudUploadIcon className="h-20 w-20 text-shrimp" />
       <span className="text-gray-500">
-        Drag and drop your <span className="text-red-500">.faa</span> protein
-        file
+        Drag and drop the <span className="text-shrimp">.faa</span> protein file to scan for defense systems
       </span>
-      <span className="text-gray-400 mt-1">or</span>
+      <span className="text-gray-500 mt-1">or</span>
       <div>
-        <button className="py-1 px-2 border rounded bg-gray-200 hover:bg-gray-100 focus:border-gray-500 text-gray-500 border-gray-400">
+        <button className="py-1 px-2 border rounded text-gray-500">
           Open file dialog
         </button>
       </div>
@@ -39,7 +37,7 @@ interface SelectedFileProps {
 }
 
 const SelectedFile = ({ fileName, resetFile }: SelectedFileProps) => (
-  <div className="flex flex-row justify-between bg-gray-100 p-4 border mb-4">
+  <div className="flex flex-row justify-between p-4 border border-shrimp mb-4 text-shrimp bg-beige">
     {fileName}
     <XIcon onClick={resetFile} className="h-5 w-5 cursor-pointer" />
   </div>
@@ -74,9 +72,9 @@ export function ProteinForm() {
           {proteinFile && (
             <button
               type="submit"
-              className="p-4 border text-blue-700 rounded bg-blue-100 hover:bg-blue-500 focus:bg-blue-700 hover:text-white focus:text-white"
+              className="p-4 bg-shrimp text-white border border-shrimp rounded"
             >
-              Search for defense systems
+              Scan for defense systems
             </button>
           )}
         </div>
