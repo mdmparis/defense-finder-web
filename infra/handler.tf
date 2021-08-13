@@ -15,7 +15,7 @@ module "lambda_function_container_image" {
   allowed_triggers = {
     ProteinsS3 = {
       service    = "s3"
-      source_arn = proteins_bucket.arn
+      source_arn = aws_s3_bucket.proteins_bucket.arn
     }
   }
 }
