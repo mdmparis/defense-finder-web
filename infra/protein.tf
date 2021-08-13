@@ -3,23 +3,25 @@ resource "aws_s3_bucket" "proteins_bucket" {
   acl    = "private"
 }
 
-#resource "aws_iam_role" "protein_upload_role" {
-#name = "protein_upload_role"
+resource "aws_iam_role" "upload_to_proteins_role" {
+  name = "upload_to_proteins_role"
 
-#assume_role_policy = jsonencode({
-#Version = "2012-10-17"
-#Statement = [
-#{
-#Effect   = "Allow",
-#Action   = "s3:PutObject",
-#Sid      = "",
-#Resource = "${aws_s3_bucket.proteins_bucket.arn}/*"
-#}
-#]
-#})
-#}
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "apigateway.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
 
-resource "aws_iam_policy" "upload-to-proteins-policy" {
+resource "aws_iam_policy" "upload_to_proteins_policy" {
   name        = "upload-to-df-proteins"
   path        = "/"
   description = ""
@@ -28,11 +30,16 @@ resource "aws_iam_policy" "upload-to-proteins-policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid      = "VisualEditor0",
+        Sid    = "",
         Effect   = "Allow",
         Action   = "s3:PutObject",
         Resource = "${aws_s3_bucket.proteins_bucket.arn}/*"
       }
     ]
   })
+}
+
+resource "aws_iam_role_policy_attachment" "upload_to_proteins_policy_attachment" {
+  role       = aws_iam_role.upload_to_proteins_role.name
+  policy_arn = aws_iam_policy.upload_to_proteins_policy.arn
 }
