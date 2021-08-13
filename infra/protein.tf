@@ -30,7 +30,7 @@ resource "aws_iam_policy" "upload_to_proteins_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "",
+        Sid      = "",
         Effect   = "Allow",
         Action   = "s3:PutObject",
         Resource = "${aws_s3_bucket.proteins_bucket.arn}/*"

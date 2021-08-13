@@ -30,7 +30,7 @@ resource "aws_api_gateway_rest_api" "df-gateway" {
           x-amazon-apigateway-integration = {
             credentials = aws_iam_role.upload_to_proteins_role.arn,
             httpMethod  = "PUT",
-            uri         = "arn:aws:apigateway:eu-west-1:s3:path/df-proteins/{key}",
+            uri         = "arn:aws:apigateway:eu-west-3:s3:path/df-proteins/{key}",
             responses = {
               default = {
                 statusCode = "200"
