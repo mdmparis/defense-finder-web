@@ -1,7 +1,7 @@
 resource "aws_lambda_function" "protein_handler_lambda" {
   function_name = "protein_handler"
   role          = aws_iam_role.protein_handler_role.arn
-  image_uri     = "public.ecr.aws/j8j2r4q6/mdmparis/defense-finder"
+  image_uri     = "public.ecr.aws/j8j2r4q6/mdmparis/defense-finder:latest"
   package_type  = "Image"
 }
 
