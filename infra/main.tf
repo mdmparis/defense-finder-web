@@ -22,10 +22,10 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "proteins_bucket" {
-  bucket = "tf-proteins"
+  bucket = "df-proteins"
   acl    = "private"
   tags = {
-    Name        = "tf-proteins"
+    Name        = "df-proteins"
     Environment = "Prod"
   }
 }
