@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "results_bucket" {
-  bucket = "df-results"
+  bucket = "df-results-bis"
   acl    = "private"
 }
 
