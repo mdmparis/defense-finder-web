@@ -1,4 +1,6 @@
 resource "aws_api_gateway_rest_api" "df-gateway" {
+  name = "df-gateway"
+
   body = jsonencode({
     openapi = "3.0.1"
     info = {
@@ -52,9 +54,25 @@ resource "aws_api_gateway_rest_api" "df-gateway" {
     x-amazon-apigateway-binary-media-types = ["*.faa"]
   })
 
-  name = "example"
-
   endpoint_configuration {
     types = ["REGIONAL"]
   }
+}
+
+resource "aws_api_gateway_deployment" "df-gateway-deployment" {
+  rest_api_id = aws_api_gateway_rest_api.df-gateway.id
+
+  triggers = {
+    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.df-gateway.body))
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_api_gateway_stage" "df-gateway-stage" {
+  deployment_id = aws_api_gateway_deployment.df-gateway-deployment.id
+  rest_api_id   = aws_api_gateway_rest_api.df-gateway.id
+  stage_name    = "v1"
 }
