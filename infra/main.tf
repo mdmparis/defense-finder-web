@@ -21,11 +21,3 @@ provider "aws" {
   region  = "eu-west-3"
 }
 
-resource "aws_s3_bucket" "proteins_bucket" {
-  bucket = "df-proteins"
-  acl    = "private"
-  tags = {
-    Name        = "df-proteins"
-    Environment = "Prod"
-  }
-}

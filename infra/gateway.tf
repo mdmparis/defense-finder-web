@@ -28,14 +28,14 @@ resource "aws_api_gateway_rest_api" "df-gateway" {
           x-amazon-apigateway-integration = {
             credentials = "arn:aws:iam::187971905951:role/defense-finder-upload-to-s3",
             httpMethod  = "PUT",
-            uri         = "arn:aws:apigateway:eu-west-1:s3:path/defense-finder-proteins/{key}",
+            uri         = "arn:aws:apigateway:eu-west-1:s3:path/df-proteins/{key}",
             responses = {
               default = {
                 statusCode = "200"
               }
             },
             requestParameters = {
-              integration.request.path.key = "method.request.path.protein"
+              "integration.request.path.key" = "method.request.path.protein"
             },
             passthroughBehavior = "when_no_match",
             type                = "aws"
