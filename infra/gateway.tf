@@ -28,7 +28,6 @@ resource "aws_api_gateway_rest_api" "df-gateway" {
             }
           },
           x-amazon-apigateway-integration = {
-            #credentials = "arn:aws:iam::187971905951:role/defense-finder-upload-to-s3",
             credentials = aws_iam_role.upload_to_proteins_role.arn,
             httpMethod  = "PUT",
             uri         = "arn:aws:apigateway:eu-west-1:s3:path/df-proteins/{key}",
@@ -52,7 +51,7 @@ resource "aws_api_gateway_rest_api" "df-gateway" {
         title = "Empty Schema"
       }
     },
-    x-amazon-apigateway-binary-media-types = ["*.faa"]
+    x-amazon-apigateway-binary-media-types = ["*/*"]
   })
 
   endpoint_configuration {
