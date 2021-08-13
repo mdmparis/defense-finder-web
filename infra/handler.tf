@@ -1,8 +1,13 @@
-resource "aws_lambda_function" "protein_handler_lambda" {
+module "lambda_function_container_image" {
+  source = "terraform-aws-modules/lambda/aws"
+
   function_name = "protein_handler"
-  role          = aws_iam_role.protein_handler_role.arn
-  image_uri     = "public.ecr.aws/j8j2r4q6/mdmparis/defense-finder:latest"
-  package_type  = "Image"
+  description   = ""
+
+  create_package = false
+
+  image_uri    = "public.ecr.aws/j8j2r4q6/mdmparis/defense-finder:latest"
+  package_type = "Image"
 }
 
 resource "aws_iam_role" "protein_handler_role" {
