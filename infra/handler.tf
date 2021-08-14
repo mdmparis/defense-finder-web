@@ -27,6 +27,8 @@ module "lambda_function_container_image" {
   environment_variables = {
     results_bucket = aws_s3_bucket.results_bucket.id
   }
+
+  timeout = 240
 }
 
 resource "aws_iam_role" "protein_handler_role" {
