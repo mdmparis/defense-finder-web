@@ -1,1 +1,2 @@
 mdmparis-defense-finder
+awscli
