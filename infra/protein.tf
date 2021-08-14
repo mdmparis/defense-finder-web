@@ -43,3 +43,12 @@ resource "aws_iam_role_policy_attachment" "upload_to_proteins_policy_attachment"
   role       = aws_iam_role.upload_to_proteins_role.name
   policy_arn = aws_iam_policy.upload_to_proteins_policy.arn
 }
+
+resource "aws_s3_bucket_notification" "protein_notification" {
+  bucket = aws_s3_bucket.proteins_bucket.id
+
+  topic {
+    topic_arn     = lambda_function_container_image
+    events        = ["s3:ObjectCreated:*"]
+  }
+}
