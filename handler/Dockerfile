@@ -17,12 +17,6 @@ ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest
 COPY entry.sh /
 RUN chmod 755 /usr/bin/aws-lambda-rie /entry.sh
 
-# Install awscli
-RUN apt update && apt install -y curl unzip
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" -s
-RUN unzip -q awscliv2.zip
-RUN ./aws/install
-
 # Install hmmer
 RUN apt-get install hmmer -y
 
@@ -30,11 +24,11 @@ RUN apt-get install hmmer -y
 COPY requirements.txt .
 RUN  pip3 install -r requirements.txt
 
-# Copy handler function
-COPY  app.py  ${FUNCTION_DIR}
-
 # Update models
 RUN defense-finder update
+
+# Copy handler function
+COPY  app.py  ${FUNCTION_DIR}
 
 ENTRYPOINT [ "/entry.sh" ]
 CMD ["app.handler"]

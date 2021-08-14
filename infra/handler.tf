@@ -7,7 +7,7 @@ module "lambda_function_container_image" {
   create_package = false
   publish        = true
 
-  image_uri    = "187971905951.dkr.ecr.eu-west-3.amazonaws.com/mdmparis/defense-finder:2.1"
+  image_uri    = "187971905951.dkr.ecr.eu-west-3.amazonaws.com/mdmparis/defense-finder:2.3"
   package_type = "Image"
 
   attach_policies    = true
@@ -22,6 +22,10 @@ module "lambda_function_container_image" {
       service    = "s3"
       source_arn = aws_s3_bucket.proteins_bucket.arn
     }
+  }
+
+  environment_variables = {
+    results_bucket = aws_s3_bucket.results_bucket.id
   }
 }
 

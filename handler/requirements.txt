@@ -1,2 +1,2 @@
 mdmparis-defense-finder
-awscli
+boto3
