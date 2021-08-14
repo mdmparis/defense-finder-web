@@ -7,7 +7,7 @@ module "lambda_function_container_image" {
   create_package = false
   publish        = true
 
-  image_uri    = "187971905951.dkr.ecr.eu-west-3.amazonaws.com/mdmparis/defense-finder:2.5"
+  image_uri    = "187971905951.dkr.ecr.eu-west-3.amazonaws.com/mdmparis/defense-finder:2.7"
   package_type = "Image"
 
   attach_policies    = true

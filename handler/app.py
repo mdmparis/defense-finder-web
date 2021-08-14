@@ -2,6 +2,7 @@ import boto3
 import os
 import zipfile
 import subprocess
+import pathlib
 
 def zipdir(path, ziph):
     # ziph is zipfile handle
@@ -25,7 +26,7 @@ def handler(event, context):
     df_script = 'defense-finder run {} --out-dir {}'.format(input_file_location, output_dir)
 
     s3.Bucket(bucket).download_file(object, input_file_location)
-    os.mkdir(output_dir)
+    pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
     subprocess.run(df_script, shell=True)
 
     # Zip and upload results
