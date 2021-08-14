@@ -11,7 +11,7 @@ module "lambda_function_container_image" {
   package_type = "Image"
 
   attach_policy = true
-  policy = aws_iam_policy.upload_to_results_policy.arn
+  policy        = aws_iam_policy.upload_to_results_policy.arn
 
   allowed_triggers = {
     ProteinsS3 = {
