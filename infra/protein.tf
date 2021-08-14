@@ -48,7 +48,7 @@ resource "aws_s3_bucket_notification" "protein_notification" {
   bucket = aws_s3_bucket.proteins_bucket.id
 
   topic {
-    topic_arn     = lambda_function_container_image
+    topic_arn     = module.lambda_function_container_image.lambda_function_arn
     events        = ["s3:ObjectCreated:*"]
   }
 }
