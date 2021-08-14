@@ -9,8 +9,8 @@ module "lambda_function_container_image" {
   image_uri    = "187971905951.dkr.ecr.eu-west-3.amazonaws.com/mdmparis/defense-finder:latest"
   package_type = "Image"
 
-  attach_policy = true
-  policy = aws_iam_policy.upload_to_results_policy.arn
+  #attach_policy = true
+  #policy = aws_iam_policy.upload_to_results_policy.arn
 
   allowed_triggers = {
     ProteinsS3 = {
