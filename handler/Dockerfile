@@ -22,13 +22,13 @@ RUN apt-get install hmmer -y
 
 # Install python dependencies
 COPY requirements.txt .
-RUN  pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt
+
+# Copy handler function
+COPY app.py ${FUNCTION_DIR}
 
 # Update models
 RUN defense-finder update
-
-# Copy handler function
-COPY  app.py  ${FUNCTION_DIR}
 
 ENTRYPOINT [ "/entry.sh" ]
 CMD ["app.handler"]
