@@ -21,7 +21,7 @@ def handler(event, context):
 
     # Download file and run defense finder
     input_file_location = '/tmp/{}'.format(object)
-    output_dir = '/tmp/results'
+    output_dir = '/tmp/output'
     df_script = 'defense-finder run {} --out-dir {}'.format(input_file_location, output_dir)
 
     s3.Bucket(bucket).download_file(object, input_file_location)
