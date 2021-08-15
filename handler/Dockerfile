@@ -1,8 +1,8 @@
-FROM python:3.8.11-alpine3.13 AS builder
+FROM python:3.8-slim AS builder
 ARG FUNCTION_DIR="/home/app/"
 
 ## Build dependencies
-RUN apk update && apk add build-base cmake autoconf automake libtool libexecinfo libexecinfo-dev python3-dev
+RUN apt update && apt install -y wget build-essential
 
 ## Install hmmer from source
 RUN wget http://eddylab.org/software/hmmer/hmmer.tar.gz   \
@@ -24,21 +24,21 @@ COPY requirements.txt .
 RUN python -m pip install pip==20.2.1 && \
   pip install -r requirements.txt
 
-FROM python:3.8.11-alpine3.13
+FROM python:3.8-slim
 ARG FUNCTION_DIR="/home/app/"
 RUN mkdir -p ${FUNCTION_DIR}
 WORKDIR ${FUNCTION_DIR}
 
 # get all binaries and dependencies from build stage
-COPY --from=builder /usr/local/ /usr/local/
+COPY --from=builder /usr/local /usr/local
 # get lambdaric from build stage
 COPY --from=builder ${FUNCTION_DIR} ${FUNCTION_DIR}
 
 # Install aws lambda runtime
 COPY entry.sh /
 ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie /usr/bin/aws-lambda-rie
-RUN chmod 755 /usr/bin/aws-lambda-rie /entry.sh
-RUN macsydata install -U -u --org mdmparis defense-finder-models
+RUN chmod 755 /usr/bin/aws-lambda-rie /entry.sh && \
+  macsydata install -U -u --org mdmparis defense-finder-models
 
 ENTRYPOINT [ "/entry.sh" ]
 CMD ["app.handler"]
