@@ -38,7 +38,7 @@ COPY --from=builder ${FUNCTION_DIR} ${FUNCTION_DIR}
 COPY entry.sh /
 ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie /usr/bin/aws-lambda-rie
 RUN chmod 755 /usr/bin/aws-lambda-rie /entry.sh && \
-  macsydata install -U -u --org mdmparis defense-finder-models
+  macsydata install --org mdmparis defense-finder-models
 
 ENTRYPOINT [ "/entry.sh" ]
 CMD ["app.handler"]
