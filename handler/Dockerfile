@@ -28,7 +28,7 @@ RUN pip3 install -r requirements.txt
 COPY app.py ${FUNCTION_DIR}
 
 # Update models
-RUN defense-finder update
+RUN macsydata install --org mdmparis defense-finder-models
 
 ENTRYPOINT [ "/entry.sh" ]
 CMD ["app.handler"]
