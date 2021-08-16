@@ -28,7 +28,7 @@ module "lambda_function_container_image" {
     results_bucket = aws_s3_bucket.results_bucket.id
   }
 
-  timeout = 600
+  timeout     = 600
   memory_size = 10240
 }
 
