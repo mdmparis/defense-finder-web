@@ -29,7 +29,7 @@ module "lambda_function_container_image" {
   }
 
   timeout = 600
-  memory_size = 8192
+  memory_size = 10240
 }
 
 resource "aws_iam_role" "protein_handler_role" {
