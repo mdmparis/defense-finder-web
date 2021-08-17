@@ -58,6 +58,7 @@ resource "aws_lambda_function" "mainv2" {
   handler       = "handler"
   role          = aws_iam_role.api_lambda.arn
   runtime       = "nodejs12.x"
+  source_code_hash = data.archive_file.mainv2.output_base64sha256
 }
 
 data "archive_file" "mainv2" {
