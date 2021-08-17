@@ -1,12 +1,6 @@
-require('dotenv').load()
-require('dotenv').config()
 const AWS = require('aws-sdk')
 
-const credentials = {
-  accessKeyId: process.env.S3_ACCESS_KEY,
-  secretAccessKey: process.env.S3_SECRET_KEY,
-}
-AWS.config.update({ credentials: credentials, region: 'eu-west-3' })
+AWS.config.update({ region: 'eu-west-3' })
 const s3 = new AWS.S3()
 
 const getPresignedGETURL = async (Key) =>
@@ -25,6 +19,7 @@ const getPresignedPUTURL = async (Key) =>
 
 exports.handler = async (event, _context) => {
   const parameters = event.queryStringParameters ?? {}
+
   const type = parameters['type']
   const key = parameters['key']
 
