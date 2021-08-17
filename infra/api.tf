@@ -1,3 +1,6 @@
+locals {
+  function_name = "df-http-api-handler"
+}
 # Create API
 resource "aws_apigatewayv2_api" "df-api" {
   name          = "df-api"
@@ -23,22 +26,17 @@ resource "aws_apigatewayv2_route" "default" {
 }
 
 # Create role for lambda
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
 resource "aws_iam_role" "api_lambda" {
-  name = "api_lambda"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "lambda.amazonaws.com"
-        }
-      },
-    ]
-  })
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
 resource "aws_iam_role_policy_attachment" "upload_to_proteins_policy_attachment" {
@@ -54,7 +52,7 @@ resource "aws_iam_role_policy_attachment" "read_proteins_policy_attachment" {
 # define main lambda
 resource "aws_lambda_function" "mainv2" {
   filename      = data.archive_file.mainv2.output_path
-  function_name = "df-http-api-handler"
+  function_name = local.function_name
   handler       = "handler"
   role          = aws_iam_role.api_lambda.arn
   runtime       = "nodejs12.x"
@@ -73,4 +71,15 @@ resource "aws_apigatewayv2_integration" "default" {
   integration_type       = "AWS_PROXY"
   integration_uri        = aws_lambda_function.mainv2.invoke_arn
   payload_format_version = "2.0"
+}
+
+## Logging: create group with 30 days retention, THEN create the lambda, and allow it to publish
+resource "aws_cloudwatch_log_group" "api_lambda" {
+  name              = "/aws/lambda/${local.function_name}"
+  retention_in_days = 30
+}
+resource "aws_iam_role_policy_attachment" "lambda_logs" {
+  depends_on = [aws_cloudwatch_log_group.api_lambda] // ensure that the log group exists before the role can be exported and used
+  role       = aws_iam_role.api_lambda.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
