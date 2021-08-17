@@ -9,6 +9,44 @@ resource "aws_api_gateway_rest_api" "df-gateway" {
     }
     paths = {
       "/protein/{protein}" = {
+        options = {
+          "consumes" = [
+            "application/json"
+          ],
+          "produces" = [
+            "application/json"
+          ],
+          "responses" = {
+            "200" = {
+              "description" = "200 response",
+              "headers" = {
+                "Access-Control-Allow-Origin" = {
+                  "type" = "string"
+                },
+                "Access-Control-Allow-Methods" = {
+                  "type" = "string"
+                },
+                "Access-Control-Allow-Headers" = {
+                  "type" = "string"
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration" = {
+            "responses" = {
+              "default" = {
+                "statusCode" = "200",
+                "responseParameters" = {
+                  "method.response.header.Access-Control-Allow-Methods" = "'OPTIONS,PUT'",
+                  "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                  "method.response.header.Access-Control-Allow-Origin" = "'*'"
+                }
+              }
+            },
+            "passthroughBehavior" = "when_no_match",
+            "type" = "mock"
+          }
+        }
         put = {
           produces = ["application/json"],
           parameters = [
