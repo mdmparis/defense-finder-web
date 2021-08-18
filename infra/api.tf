@@ -10,6 +10,13 @@ resource "aws_apigatewayv2_api" "df-api" {
   }
 }
 
+resource "aws_apigatewayv2_integration" "default3" {
+  api_id               = aws_apigatewayv2_api.df-api.id
+  integration_type     = "AWS_PROXY"
+  integration_method   = "POST"
+  integration_uri      = aws_lambda_function.mainv2.invoke_arn
+}
+
 # Add default stage with autodeploy
 resource "aws_apigatewayv2_stage" "default" {
   api_id      = aws_apigatewayv2_api.df-api.id
@@ -18,11 +25,11 @@ resource "aws_apigatewayv2_stage" "default" {
 }
 
 # create default route
-resource "aws_apigatewayv2_route" "default" {
+resource "aws_apigatewayv2_route" "default2" {
   api_id             = aws_apigatewayv2_api.df-api.id
   route_key          = "$default"
   authorization_type = "NONE"
-  target             = "integrations/${aws_apigatewayv2_integration.default.id}"
+  target             = "integrations/${aws_apigatewayv2_integration.default3.id}"
 }
 
 # Create role for lambda
@@ -57,14 +64,6 @@ resource "aws_lambda_function" "mainv2" {
   runtime       = "nodejs12.x"
   s3_bucket     = "df-api"
   s3_key        = "api.zip"
-}
-
-resource "aws_apigatewayv2_integration" "default" {
-  api_id                 = aws_apigatewayv2_api.df-api.id
-  integration_method     = "POST"
-  integration_type       = "AWS_PROXY"
-  integration_uri        = aws_lambda_function.mainv2.invoke_arn
-  payload_format_version = "2.0"
 }
 
 ## Logging: create group with 30 days retention, THEN create the lambda, and allow it to publish
