@@ -66,6 +66,13 @@ resource "aws_lambda_function" "mainv2" {
   s3_key        = "api.zip"
 }
 
+resource "aws_lambda_permission" "default" {
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.mainv2.arn
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.df-api.execution_arn}/*/*"
+}
+
 ## Logging: create group with 30 days retention, THEN create the lambda, and allow it to publish
 resource "aws_cloudwatch_log_group" "api_lambda" {
   name              = "/aws/lambda/${local.function_name}"
