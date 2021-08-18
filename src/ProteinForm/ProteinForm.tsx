@@ -38,18 +38,19 @@ const Dropzone = ({ onDrop }: { onDrop: DropzoneOptions['onDrop'] }) => {
 interface SelectedFileProps {
   fileName: string
   resetFile: () => void
+  uploading: boolean
 }
 
-const SelectedFile = ({ fileName, resetFile }: SelectedFileProps) => (
+const SelectedFile = ({ fileName, resetFile, uploading }: SelectedFileProps) => (
   <div className="flex flex-row justify-between p-4 border border-shrimp mb-4 text-shrimp bg-beige">
     {fileName}
-    <XIcon onClick={resetFile} className="h-5 w-5 cursor-pointer" />
+    {!uploading && <XIcon onClick={resetFile} className="h-5 w-5 cursor-pointer" />}
   </div>
 )
 
 export function ProteinForm() {
   const [proteinFile, setProtein] = useState<File>()
-  const [loading, setLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const history = useHistory()
 
   const resetProtein = useCallback(() => {
@@ -63,7 +64,7 @@ export function ProteinForm() {
   const onSubmit = async (e: any) => {
     e.preventDefault()
     if (!proteinFile?.name) return
-    setLoading(true)
+    setUploading(true)
     const fullName = `${uuid()}.${proteinFile.name}`
     const permissionUrl = `${baseUrl}?key=${fullName}&type=put`
     const res = await fetch(permissionUrl, { method: "GET" })
@@ -80,12 +81,12 @@ export function ProteinForm() {
       <form onSubmit={onSubmit}>
         <div className="mx-10">
           {proteinFile ? (
-            <SelectedFile fileName={proteinFile.name} resetFile={resetProtein} />
+            <SelectedFile fileName={proteinFile.name} resetFile={resetProtein} uploading={uploading}/>
           ) : (
             <Dropzone onDrop={onDrop} />
           )}
           {proteinFile && (
-            loading
+            uploading
                 ? <button
                     disabled
                     type="submit"

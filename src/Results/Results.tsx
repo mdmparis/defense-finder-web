@@ -6,7 +6,7 @@ import {
   useParams
 } from 'react-router-dom'
 
-const baseUrl = 'https://ajqdvfh0r0.execute-api.eu-west-3.amazonaws.com'
+const permissionBaseUrl = 'https://ajqdvfh0r0.execute-api.eu-west-3.amazonaws.com'
 
 const Success = ({bytes, name, downladName}: {bytes: Blob, name: string, downladName: string}) =>
   <div>
@@ -40,7 +40,7 @@ export const Result = () => {
 
   useEffect(() => {
     const fetchResults = async () => {
-      const permissionUrl = `${baseUrl}?key=${key}&type=get`
+      const permissionUrl = `${permissionBaseUrl}?key=${key}&type=get`
       const permRes = await fetch(permissionUrl)
       const { url } = await permRes.json()
       const objectRes = await fetch(url)
