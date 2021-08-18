@@ -10,7 +10,7 @@ resource "aws_apigatewayv2_api" "df-api" {
   }
 }
 
-resource "aws_apigatewayv2_integration" "default3" {
+resource "aws_apigatewayv2_integration" "default" {
   api_id               = aws_apigatewayv2_api.df-api.id
   integration_type     = "AWS_PROXY"
   integration_method   = "POST"
@@ -25,11 +25,11 @@ resource "aws_apigatewayv2_stage" "default" {
 }
 
 # create default route
-resource "aws_apigatewayv2_route" "default2" {
+resource "aws_apigatewayv2_route" "default" {
   api_id             = aws_apigatewayv2_api.df-api.id
   route_key          = "$default"
   authorization_type = "NONE"
-  target             = "integrations/${aws_apigatewayv2_integration.default3.id}"
+  target             = "integrations/${aws_apigatewayv2_integration.default.id}"
 }
 
 # Create role for lambda
