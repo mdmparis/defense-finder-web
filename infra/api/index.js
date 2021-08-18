@@ -46,7 +46,7 @@ exports.handler = async (event, _context) => {
       'Content-Type': 'application/json',
     },
     isBase64Encoded: false,
-    body: `{\n  "url": ${url}\n}`,
+    body: `{\n  "url": "${url}"\n}`,
   }
 
   return response
