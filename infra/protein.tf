@@ -1,6 +1,21 @@
 resource "aws_s3_bucket" "proteins_bucket" {
   bucket = "df-proteins"
   acl    = "private"
+
+  lifecycle_rule {
+    enabled = true
+    expiration {
+      days = 1
+    }
+  }
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["PUT"]
+    allowed_origins = ["*"]
+    expose_headers  = ["ETag"]
+    max_age_seconds = 3000
+  }
 }
 
 resource "aws_iam_policy" "upload_to_proteins_policy" {

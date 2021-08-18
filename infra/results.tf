@@ -8,6 +8,14 @@ resource "aws_s3_bucket" "results_bucket" {
       days = 1
     }
   }
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET"]
+    allowed_origins = ["*"]
+    expose_headers  = ["ETag"]
+    max_age_seconds = 3000
+  }
 }
 
 // Allow anyone to download a file. Do not grant list access or write access
