@@ -27,7 +27,7 @@ const Dropzone = ({ onDrop }: { onDrop: DropzoneOptions['onDrop'] }) => {
       </span>
       <span className="text-gray-500 mt-1">or</span>
       <div>
-        <button className="py-1 px-2 border rounded text-gray-500">
+        <button className="py-1 px-2 border rounded text-gray-500" type="button">
           Open file dialog
         </button>
       </div>
@@ -49,6 +49,7 @@ const SelectedFile = ({ fileName, resetFile }: SelectedFileProps) => (
 
 export function ProteinForm() {
   const [proteinFile, setProtein] = useState<File>()
+  const [loading, setLoading] = useState(false)
   const history = useHistory()
 
   const resetProtein = useCallback(() => {
@@ -62,6 +63,7 @@ export function ProteinForm() {
   const onSubmit = async (e: any) => {
     e.preventDefault()
     if (!proteinFile?.name) return
+    setLoading(true)
     const fullName = `${uuid()}.${proteinFile.name}`
     const permissionUrl = `${baseUrl}?key=${fullName}&type=put`
     const res = await fetch(permissionUrl, { method: "GET" })
@@ -83,12 +85,20 @@ export function ProteinForm() {
             <Dropzone onDrop={onDrop} />
           )}
           {proteinFile && (
-            <button
-              type="submit"
-              className="p-4 bg-shrimp text-white border border-shrimp rounded"
-            >
-              Scan for defense systems
-            </button>
+            loading
+                ? <button
+                    disabled
+                    type="submit"
+                    className="p-4 bg-shrimp text-white border border-shrimp rounded"
+                  >
+                    Uploading...
+                  </button>
+                : <button
+                    type="submit"
+                    className="p-4 bg-shrimp text-white border border-shrimp rounded"
+                  >
+                    Scan for defense systems
+                  </button>
           )}
         </div>
       </form>
