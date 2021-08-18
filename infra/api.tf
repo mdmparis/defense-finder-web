@@ -51,18 +51,12 @@ resource "aws_iam_role_policy_attachment" "read_proteins_policy_attachment" {
 
 # define main lambda
 resource "aws_lambda_function" "mainv2" {
-  filename      = data.archive_file.mainv2.output_path
   function_name = local.function_name
-  handler       = "handler"
+  handler       = "index.handler"
   role          = aws_iam_role.api_lambda.arn
   runtime       = "nodejs12.x"
-  source_code_hash = data.archive_file.mainv2.output_base64sha256
-}
-
-data "archive_file" "mainv2" {
-  output_path = "./api/main.zip"
-  source_file = "./api/api.js"
-  type        = "zip"
+  s3_bucket     = "df-api"
+  s3_key        = "api.zip"
 }
 
 resource "aws_apigatewayv2_integration" "default" {
