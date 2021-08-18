@@ -18,7 +18,7 @@ const getPresignedPUTURL = async (Key) =>
   })
 
 exports.handler = async (event, _context) => {
-  const parameters = event.queryStringParameters ?? {}
+  const parameters = event.queryStringParameters || {}
 
   const type = parameters['type']
   const key = parameters['key']
