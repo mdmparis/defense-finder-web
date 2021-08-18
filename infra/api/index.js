@@ -5,14 +5,14 @@ const s3 = new AWS.S3()
 
 const getPresignedGETURL = async (Key) =>
   s3.getSignedUrl('getObject', {
-    Bucket: 'df-proteins',
+    Bucket: 'df-results-bis',
     Key, //filename
     Expires: 240, //time to expire in seconds
   })
 
 const getPresignedPUTURL = async (Key) =>
   s3.getSignedUrl('putObject', {
-    Bucket: 'df-results-bis',
+    Bucket: 'df-proteins',
     Key, //filename
     Expires: 240, //time to expire in seconds
   })
