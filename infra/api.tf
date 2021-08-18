@@ -51,18 +51,12 @@ resource "aws_iam_role_policy_attachment" "read_proteins_policy_attachment" {
 
 # define main lambda
 resource "aws_lambda_function" "mainv2" {
-  filename      = data.archive_file.mainv2.output_path
-  function_name = local.function_name
-  handler       = "handler"
-  role          = aws_iam_role.api_lambda.arn
-  runtime       = "nodejs12.x"
+  filename         = data.archive_file.mainv2.output_path
+  function_name    = local.function_name
+  handler          = "handler"
+  role             = aws_iam_role.api_lambda.arn
+  runtime          = "nodejs12.x"
   source_code_hash = data.archive_file.mainv2.output_base64sha256
-}
-
-data "archive_file" "mainv2" {
-  output_path = "./api/main.zip"
-  source_file = "./api/api.js"
-  type        = "zip"
 }
 
 resource "aws_apigatewayv2_integration" "default" {
@@ -83,3 +77,40 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role       = aws_iam_role.api_lambda.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
+
+# Install js dependencies
+resource "null_resource" "lambda_dependencies" {
+  provisioner "local-exec" {
+    command = <<-EOF
+      cd ${path.module}/.. &&\
+      mkdir ./node_install &&\
+      cd ./node_install &&\
+      curl https://nodejs.org/dist/latest-v10.x/node-v10.19.0-linux-x64.tar.gz | tar xz --strip-components=1 &&\
+      export PATH="$PWD/bin:$PATH" &&\
+      cd ../${path.module}/api &&\
+      npm install &&\
+      npm run build
+    EOF
+  }
+
+  triggers = {
+    index   = sha256(file("${path.module}/api/api.js"))
+    package = sha256(file("${path.module}/api/package.json"))
+    lock    = sha256(file("${path.module}/api/package-lock.json"))
+    node    = sha256(join("", fileset(path.module, "api/**/*.js")))
+  }
+}
+
+data "null_data_source" "wait_for_lambda_exporter" {
+  inputs = {
+    lambda_dependency_id = "${null_resource.lambda_dependencies.id}"
+    source_dir           = "${path.module}/api/"
+  }
+}
+
+data "archive_file" "mainv2" {
+  output_path = "./api/main.zip"
+  source_dir  = data.null_data_source.wait_for_lambda_exporter.outputs["source_dir"]
+  type        = "zip"
+}
+
