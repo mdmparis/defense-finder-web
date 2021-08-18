@@ -18,6 +18,27 @@ resource "aws_s3_bucket" "results_bucket" {
   }
 }
 
+// Allow anyone to download a file. Do not grant list access or write access
+data "aws_iam_policy_document" "public_read" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:GetObject"
+    ]
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+    resources = [
+      "${aws_s3_bucket.results_bucket.arn}/*",
+    ]
+  }
+}
+resource "aws_s3_bucket_policy" "results_bucket_policy" {
+  bucket = aws_s3_bucket.results_bucket.id
+  policy = data.aws_iam_policy_document.public_read.json
+}
+
 resource "aws_iam_policy" "upload_to_results_policy" {
   name        = "upload-to-df-results"
   path        = "/"
