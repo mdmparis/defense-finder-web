@@ -2,6 +2,9 @@ import { useCallback, useState } from 'react'
 import { useDropzone, DropzoneOptions } from 'react-dropzone'
 import XIcon from '@heroicons/react/outline/XIcon'
 import CloudUploadIcon from '@heroicons/react/solid/CloudUploadIcon'
+import { useHistory } from "react-router-dom";
+
+const baseUrl = 'https://ajqdvfh0r0.execute-api.eu-west-3.amazonaws.com'
 
 const Dropzone = ({ onDrop }: { onDrop: DropzoneOptions['onDrop'] }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -45,6 +48,7 @@ const SelectedFile = ({ fileName, resetFile }: SelectedFileProps) => (
 
 export function ProteinForm() {
   const [proteinFile, setProtein] = useState<File>()
+  const history = useHistory()
 
   const resetProtein = useCallback(() => {
     setProtein(undefined)
@@ -52,12 +56,19 @@ export function ProteinForm() {
 
   const onDrop = useCallback((acceptedFiles) => {
     setProtein(acceptedFiles[0])
-    console.log('acceptedFiles', acceptedFiles)
   }, [])
 
-  const onSubmit = (e: any) => {
+  const onSubmit = async (e: any) => {
     e.preventDefault()
-    console.log('e', e)
+    if (!proteinFile?.name) return
+    const permissionUrl = `${baseUrl}?key=${proteinFile.name}&type=put`
+    const res = await fetch(permissionUrl, { method: "GET" })
+    const { url } = await res.json()
+    await fetch(url, {
+      method: "PUT",
+      body: proteinFile
+    })
+    history.push(`/result/${proteinFile.name}`)
   }
 
   return (
