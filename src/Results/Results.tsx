@@ -5,34 +5,51 @@ import {
 import {
   useParams
 } from 'react-router-dom'
+import { ParsedTSV } from './types'
+import { Systems, getSystems } from './Systems'
 
 const permissionBaseUrl = 'https://ajqdvfh0r0.execute-api.eu-west-3.amazonaws.com'
 
-const Success = ({bytes, name, downladName}: {bytes: Blob, name: string, downladName: string}) =>
+interface SuccessProps {
+  bytes: Blob
+  name: string
+  downladName: string
+  systems?: ParsedTSV
+}
+
+const Success = ({bytes, name, downladName, systems}: SuccessProps) =>
   <div>
-    <div className="mb-4">
-      <div className="text-xl">
-        Success!
+    <div className="border p-4 border-shrimp mb-3">
+      <div className="mb-4">
+        <div className="text-xl">
+          Success!
+        </div>
+        Your file {name} has been successfully processed by Defense Finder.<br/>
       </div>
-      Your file {name} has been processed successfully by Defense Finder.<br/>
-      Click this link to download your analysis results:
+      <div>
+        Download the full analysis results:&nbsp;
+        <a
+          href={URL.createObjectURL(bytes)}
+          download={downladName}
+          className="text-shrimp hover:underline">
+          {downladName}
+        </a>
+      </div>
     </div>
     <div>
-      <a
-        href={URL.createObjectURL(bytes)}
-        download={downladName}
-        className="text-shrimp hover:underline">
-      {downladName}
-    </a>
+      <Systems systems={systems} />
     </div>
   </div>
 
 const Loader = ({name}: {name: string}) =>
-  <div>Processing {name}... This usually takes less than a minute.</div>
+  <div className="border p-4 border-shrimp">
+    Processing {name}... This usually takes less than a minute.
+  </div>
 
 export const Result = () => {
   const { result } = useParams<{ result: string }>()
   const [bytes, setBytes] = useState<Blob>()
+  const [systems, setSystems] = useState()
 
   const fileName = result.split('.').slice(1).join('.')
   const downloadName = `${fileName}.zip`
@@ -47,6 +64,8 @@ export const Result = () => {
       if (objectRes.status === 200) {
         const bytes = await objectRes.blob()
         setBytes(bytes)
+        const systems = await getSystems(bytes)
+        setSystems(systems as any)
       }
       else {
         const timer = setTimeout(fetchResults, 2000)
@@ -54,17 +73,15 @@ export const Result = () => {
       }
     }
     fetchResults()
-  }, [setBytes, downloadName, key])
+  }, [setBytes, downloadName, key, setSystems])
 
   const content = bytes
-    ? <Success name={fileName} downladName={downloadName} bytes={bytes}/>
+    ? <Success name={fileName} downladName={downloadName} bytes={bytes} systems={systems}/>
     : <Loader name={fileName} />
 
   return (
     <div className="container mx-auto">
-      <div className="border p-4 border-shrimp">
-        {content}
-      </div>
+      {content}
     </div>
   )
 }
