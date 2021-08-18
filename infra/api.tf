@@ -22,7 +22,7 @@ resource "aws_apigatewayv2_route" "default" {
   api_id             = aws_apigatewayv2_api.df-api.id
   route_key          = "$default"
   authorization_type = "NONE"
-  target             = "integrations/${aws_apigatewayv2_integration.default2.id}"
+  target             = "integrations/${aws_apigatewayv2_integration.default.id}"
 }
 
 # Create role for lambda
@@ -59,7 +59,7 @@ resource "aws_lambda_function" "mainv2" {
   s3_key        = "api.zip"
 }
 
-resource "aws_apigatewayv2_integration" "default2" {
+resource "aws_apigatewayv2_integration" "default" {
   api_id           = aws_apigatewayv2_api.df-api.id
   integration_type = "AWS_PROXY"
 
@@ -69,6 +69,12 @@ resource "aws_apigatewayv2_integration" "default2" {
   integration_method        = "POST"
   integration_uri           = aws_lambda_function.mainv2.invoke_arn
   passthrough_behavior      = "WHEN_NO_MATCH"
+}
+resource "aws_lambda_permission" "default" {
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.mainv2.arn
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.df-api.execution_arn}/*/*"
 }
 
 ## Logging: create group with 30 days retention, THEN create the lambda, and allow it to publish
