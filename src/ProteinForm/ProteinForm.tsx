@@ -3,6 +3,7 @@ import { useDropzone, DropzoneOptions } from 'react-dropzone'
 import XIcon from '@heroicons/react/outline/XIcon'
 import CloudUploadIcon from '@heroicons/react/solid/CloudUploadIcon'
 import { useHistory } from "react-router-dom";
+import { v4 as uuid } from 'uuid'
 
 const baseUrl = 'https://ajqdvfh0r0.execute-api.eu-west-3.amazonaws.com'
 
@@ -61,14 +62,15 @@ export function ProteinForm() {
   const onSubmit = async (e: any) => {
     e.preventDefault()
     if (!proteinFile?.name) return
-    const permissionUrl = `${baseUrl}?key=${proteinFile.name}&type=put`
+    const fullName = `${uuid()}.${proteinFile.name}`
+    const permissionUrl = `${baseUrl}?key=${fullName}&type=put`
     const res = await fetch(permissionUrl, { method: "GET" })
     const { url } = await res.json()
     await fetch(url, {
       method: "PUT",
       body: proteinFile
     })
-    history.push(`/result/${proteinFile.name}`)
+    history.push(`/result/${fullName}`)
   }
 
   return (
