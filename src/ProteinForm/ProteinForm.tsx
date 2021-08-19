@@ -33,7 +33,7 @@ const Dropzone = ({ onDrop }: { onDrop: DropzoneOptions['onDrop'] }) => {
       <input {...getInputProps()} />
       <CloudUploadIcon className="h-20 w-20 text-shrimp" />
       <span className="text-gray-500">
-        Drag and drop your <span className="text-shrimp">.faa</span> protein file
+        Drag and drop your <span className="text-shrimp">FASTA</span> protein file
       </span>
       <span className="text-gray-500 mt-1">or</span>
       <div>
