@@ -11,10 +11,10 @@ resource "aws_apigatewayv2_api" "df-api" {
 }
 
 resource "aws_apigatewayv2_integration" "default" {
-  api_id               = aws_apigatewayv2_api.df-api.id
-  integration_type     = "AWS_PROXY"
-  integration_method   = "POST"
-  integration_uri      = aws_lambda_function.mainv2.invoke_arn
+  api_id             = aws_apigatewayv2_api.df-api.id
+  integration_type   = "AWS_PROXY"
+  integration_method = "POST"
+  integration_uri    = aws_lambda_function.mainv2.invoke_arn
 }
 
 # Add default stage with autodeploy
@@ -46,14 +46,22 @@ resource "aws_iam_role" "api_lambda" {
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
-resource "aws_iam_role_policy_attachment" "upload_to_proteins_policy_attachment" {
-  role       = aws_iam_role.api_lambda.name
-  policy_arn = aws_iam_policy.upload_to_proteins_policy.arn
+// lambda can upload to proteins, and read from results
+data "aws_iam_policy_document" "api_lambda_s3_access" {
+  statement {
+    effect    = "Allow"
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.results_bucket.arn}/*"]
+  }
+  statement {
+    effect    = "Allow"
+    actions   = ["s3:PutObject"]
+    resources = ["${aws_s3_bucket.proteins_bucket.arn}/*"]
+  }
 }
-
-resource "aws_iam_role_policy_attachment" "read_proteins_policy_attachment" {
-  role       = aws_iam_role.api_lambda.name
-  policy_arn = aws_iam_policy.read_proteins_policy.arn
+resource "aws_iam_role_policy" "api_lambda_s3_access" {
+  role   = aws_iam_role.api_lambda.name
+  policy = data.aws_iam_policy_document.api_lambda_s3_access.json
 }
 
 # define main lambda
