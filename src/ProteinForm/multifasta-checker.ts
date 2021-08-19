@@ -49,5 +49,5 @@ const isFastaValid = (lines: string[]): boolean => {
     return false
   }
 
-  return /^[ACDEFGHIKLMNPQRSTUVWY\s]+$/i.test(fastaBody)
+  return /^[A-Z*-]+$/.test(fastaBody)
 }
