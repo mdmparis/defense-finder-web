@@ -28,6 +28,8 @@ module "lambda_function_container_image" {
     results_bucket = aws_s3_bucket.results_bucket.id
   }
 
-  timeout     = 600
-  memory_size = 10240
+  timeout                           = local.handler.timeout_seconds
+  memory_size                       = local.handler.memory_size
+  reserved_concurrent_executions    = local.handler.reserved_concurrent_executions
+  cloudwatch_logs_retention_in_days = local.handler.log_retention_days
 }

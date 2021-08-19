@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "proteins_bucket" {
   lifecycle_rule {
     enabled = true
     expiration {
-      days = 1
+      days = local.proteins.ttl_days
     }
   }
 

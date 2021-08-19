@@ -22,6 +22,10 @@ resource "aws_apigatewayv2_stage" "default" {
   api_id      = aws_apigatewayv2_api.df-api.id
   name        = "$default"
   auto_deploy = true
+  default_route_settings {
+    throttling_rate_limit  = local.api.rate_limit
+    throttling_burst_limit = local.api.burst_limit
+  }
 }
 
 # create default route
@@ -72,6 +76,7 @@ resource "aws_lambda_function" "mainv2" {
   runtime       = "nodejs12.x"
   s3_bucket     = "df-api"
   s3_key        = "api.zip"
+  timeout       = local.api.lambda_timeout_seconds
 }
 
 resource "aws_lambda_permission" "default" {
@@ -84,7 +89,7 @@ resource "aws_lambda_permission" "default" {
 ## Logging: create group with 30 days retention, THEN create the lambda, and allow it to publish
 resource "aws_cloudwatch_log_group" "api_lambda" {
   name              = "/aws/lambda/${local.function_name}"
-  retention_in_days = 30
+  retention_in_days = local.api.log_retention_days
 }
 resource "aws_iam_role_policy_attachment" "lambda_logs" {
   depends_on = [aws_cloudwatch_log_group.api_lambda] // ensure that the log group exists before the role can be exported and used
