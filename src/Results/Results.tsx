@@ -56,23 +56,31 @@ export const Result = () => {
   const key = `${result}.zip`
 
   useEffect(() => {
+    let timer: NodeJS.Timer
     const fetchResults = async () => {
+      let attempts = 0
       const permissionUrl = `${permissionBaseUrl}?key=${key}&type=get`
       const permRes = await fetch(permissionUrl)
       const { url } = await permRes.json()
-      const objectRes = await fetch(url)
-      if (objectRes.status === 200) {
-        const bytes = await objectRes.blob()
-        setBytes(bytes)
-        const systems = await getSystems(bytes)
-        setSystems(systems as any)
+      const retry = async () => {
+        const objectRes = await fetch(url)
+        if (objectRes.status === 200) {
+          const bytes = await objectRes.blob()
+          setBytes(bytes)
+          const systems = await getSystems(bytes)
+          setSystems(systems as any)
+        }
+        else {
+          attempts++
+          if (attempts < 30) {
+            timer = setTimeout(retry, (attempts + 2) * 500)
+          }
+        }
       }
-      else {
-        const timer = setTimeout(fetchResults, 2000)
-        return () => clearTimeout(timer)
-      }
+      retry()
     }
     fetchResults()
+    return () => clearTimeout(timer)
   }, [setBytes, downloadName, key, setSystems])
 
   const content = bytes
