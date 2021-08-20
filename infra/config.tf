@@ -14,7 +14,7 @@ locals {
   handler = {
     timeout_seconds                = 600
     memory_size                    = 10240
-    reserved_concurrent_executions = 5
+    reserved_concurrent_executions = 20
     log_retention_days             = 30
   }
 }
