@@ -22,11 +22,11 @@ def handler(event, context):
 
     # Download file and run defense finder
     input_file_location = '/tmp/{}'.format(object)
-    output_dir = '/tmp/output'
+    output_dir = '/tmp/output/{}'.format(object)
     df_script = 'defense-finder run {} --out-dir {}'.format(input_file_location, output_dir)
 
     s3.Bucket(bucket).download_file(object, input_file_location)
-    pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(output_dir).mkdir(parents=True)
     subprocess.run(df_script, shell=True)
 
     # Zip and upload results
@@ -40,3 +40,5 @@ def handler(event, context):
     zipf.close()
 
     s3.Bucket(results_bucket).upload_file(output_archive_location, output_archive_name)
+    os.rmdir(output_dir)
+    os.remove(input_file_location)
