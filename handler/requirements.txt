@@ -1,2 +1,3 @@
 mdmparis-defense-finder
 boto3
+colorlog==6.3.0a1
