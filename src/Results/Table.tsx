@@ -13,12 +13,12 @@ export const Table = ({ tableInstance }: TableProps) => {
     prepareRow,
   } = tableInstance
   return (
-    <div {...getTableProps()} className="border-l border-t border-black">
+    <div {...getTableProps()} className="border-l border-t border-black text-sm">
       <div>
         {headerGroups.map(headerGroup => (
           <div {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <div {...column.getHeaderProps()} className="bg-beige text-shrimp p-3 border-r border-b border-black break-words">
+              <div {...column.getHeaderProps()} className="bg-beige text-shrimp p-1 border-r border-b border-black break-words">
                 {column.render('Header')}
               </div>
             ))}
@@ -32,7 +32,7 @@ export const Table = ({ tableInstance }: TableProps) => {
             <div {...row.getRowProps()}>
               {row.cells.map(cell => {
                 return (
-                  <div {...cell.getCellProps()} className="break-words p-3 border-r border-b border-black " title="test">
+                  <div {...cell.getCellProps()} className="break-words p-1 border-r border-b border-black " title="test">
                     {cell.render('Cell')}
                   </div>
                 )
