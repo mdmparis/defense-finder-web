@@ -13,34 +13,34 @@ export const Table = ({ tableInstance }: TableProps) => {
     prepareRow,
   } = tableInstance
   return (
-    <div {...getTableProps()} className="border-l border-t border-black text-sm">
-      <div>
+    <table {...getTableProps()} className="border-l border-t border-black text-sm table-auto">
+      <thead>
         {headerGroups.map(headerGroup => (
-          <div {...headerGroup.getHeaderGroupProps()}>
+          <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <div {...column.getHeaderProps()} className="bg-beige text-shrimp p-1 border-r border-b border-black break-words">
+              <th {...column.getHeaderProps()} className="bg-beige text-shrimp p-1 border-r border-b border-black break-words text-left">
                 {column.render('Header')}
-              </div>
+              </th>
             ))}
-          </div>
+          </tr>
         ))}
-      </div>
-      <div {...getTableBodyProps()}>
+      </thead>
+      <tbody {...getTableBodyProps()}>
         {rows.map(row => {
           prepareRow(row)
           return (
-            <div {...row.getRowProps()}>
+            <tr {...row.getRowProps()}>
               {row.cells.map(cell => {
                 return (
-                  <div {...cell.getCellProps()} className="break-words p-1 border-r border-b border-black " title="test">
+                  <td {...cell.getCellProps()} className="break-words p-1 border-r border-b border-black " title="test" style={{maxWidth: 180}}>
                     {cell.render('Cell')}
-                  </div>
+                  </td>
                 )
               })}
-            </div>
+            </tr>
           )
         })}
-      </div>
-    </div>
+      </tbody>
+    </table>
   )
 }

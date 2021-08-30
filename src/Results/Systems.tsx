@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Table } from './Table'
-import { useTable, useFlexLayout } from 'react-table'
+import { useTable } from 'react-table'
 import { ParsedTSV } from './types'
 import JSZip from 'jszip';
 import Papa from 'papaparse'
@@ -40,7 +40,7 @@ const formatParsedTSV = (tsv: ParsedTSV) => {
 
 export const Systems = ({systems}: {systems?: ParsedTSV}) => {
   const tableData = useMemo(() => formatParsedTSV(systems || []), [systems])
-  const tableInstance = useTable(tableData, useFlexLayout)
+  const tableInstance = useTable(tableData)
   return <Table tableInstance={tableInstance} />
 }
 
