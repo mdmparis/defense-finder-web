@@ -10,7 +10,9 @@ export const getSystems = async (bytes: Blob) => {
   zip = await zip.loadAsync(bytes)
   const systemsZipObject = zip.file(/system/)[0]
   const systemsFileRaw = await systemsZipObject.async('text')
-  const systemsFile = Papa.parse(systemsFileRaw.trim()).data
+  const systemsFile = Papa.parse(systemsFileRaw.trim(), {
+    delimiter: '\t'
+  }).data
   return systemsFile
 }
 
