@@ -1,5 +1,5 @@
 export const Logo = () =>
-  <svg width="15%" height="15%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1210 515">
+  <svg height="80px" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1210 515">
 
     <g>
       <title>Defense Finder</title>
