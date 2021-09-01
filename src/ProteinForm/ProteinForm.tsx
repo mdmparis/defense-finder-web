@@ -48,7 +48,7 @@ const Dropzone = ({ onDrop }: { onDrop: DropzoneOptions['onDrop'] }) => {
 interface SelectedFileProps {
   fileName: string
   resetFile: () => void
-  uploading: boolean
+    uploading: boolean
 }
 
 const SelectedFile = ({ fileName, resetFile, uploading }: SelectedFileProps) => (
@@ -129,6 +129,31 @@ export function ProteinForm() {
           )}
         </div>
       </form>
+
+      <div className="mx-10">
+        <div className="mb-4 p-4 border">
+          DefenseFinder is a program to systematically detect known anti-phage systems. DefenseFinder uses MacSyfinder.<br/>
+          For more details about how DefenseFinder works please refer to the documentation and the publication.<br/>
+          In DefenseFinder associated publication, you can find the detection of known anti-phage systems on the RefSeq database from May 2021.
+        </div>
+      </div>
+
+      <div className="mx-10">
+        <div className="p-4 mb-4 border">
+          <div className="mb-2">If you are using DefenseFinder please cite:</div>
+          <ul className="text-sm">
+            <li>
+              - "Systematic and quantitative view of the antiviral arsenal of prokaryotes" bioRxiv<br/>
+              <i>Tesson F., Hervé A. , Touchon M., d’Humières C., Cury J., Bernheim A.</i>
+            </li>
+            <li>
+              - "MacSyFinder: A Program to Mine Genomes for Molecular Systems with an Application to CRISPR-Cas Systems." PloS one 2014<br/>
+            <i>Abby S., Néron B.,Ménager H., Touchon M. Rocha EPC.</i>
+            </li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   )
 }
