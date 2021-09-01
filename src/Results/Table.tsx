@@ -32,7 +32,7 @@ export const Table = ({ tableInstance }: TableProps) => {
             <tr {...row.getRowProps()}>
               {row.cells.map(cell => {
                 return (
-                  <td {...cell.getCellProps()} className="break-words p-1 border-r border-b border-black " title="test" style={{maxWidth: 170}}>
+                  <td {...cell.getCellProps()} className="break-words p-1 border-r border-b border-black " title="test" style={{maxWidth: 500}}>
                     {cell.render('Cell')}
                   </td>
                 )

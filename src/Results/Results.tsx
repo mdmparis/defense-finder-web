@@ -36,7 +36,7 @@ const Success = ({bytes, name, downladName, systems}: SuccessProps) =>
         </a>
       </div>
     </div>
-    <div>
+    <div className="overflow-x-scroll">
       <Systems systems={systems} />
     </div>
   </div>
