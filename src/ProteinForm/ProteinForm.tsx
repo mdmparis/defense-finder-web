@@ -96,7 +96,7 @@ export function ProteinForm() {
 
   return (
     <div className="container mx-auto">
-      <div className="mb-6 text-gray-500">
+      <div className="mb-6 p-4 text-gray-500">
         DefenseFinder is a program to systematically detect known anti-phage systems. DefenseFinder uses MacSyfinder.<br/>
         For more details about how DefenseFinder works please refer to the documentation and the publication.<br/>
         In DefenseFinder associated publication, you can find the detection of known anti-phage systems on the RefSeq database from May 2021.
