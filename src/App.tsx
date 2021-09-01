@@ -14,7 +14,7 @@ function AppContent() {
   const history = useHistory()
   return (
     <div className="flex flex-col justify-between min-h-full">
-      <header className="mb-8 p-5 flex flex-row justify-between items-center border-b">
+      <header className="mb-4 p-5 flex flex-row justify-between items-center border-b">
         <button onClick={() => history.push("/")} className="mr-2"><Logo /></button>
         <div>
           <div className="text-sm text-gray-400">
