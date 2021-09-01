@@ -5,10 +5,34 @@ import { ParsedTSV } from './types'
 import JSZip from 'jszip';
 import Papa from 'papaparse'
 
-export const getSystems = async (bytes: Blob) => {
+const getZipFromBytes = (bytes: Blob): Promise<JSZip> => {
   let zip = new JSZip();
-  zip = await zip.loadAsync(bytes)
-  const systemsZipObject = zip.file(/system/)[0]
+  return zip.loadAsync(bytes)
+}
+
+type Result = [string | null, unknown[] | null]
+export const getResult = async (bytes: Blob): Promise<Result> => {
+  const zip = await getZipFromBytes(bytes)
+  const systems = await getSystems(zip)
+  const error = await getError(zip)
+  return [error, systems]
+}
+
+const getError = async (zip: JSZip) => {
+  const errorZipObjects = zip.file(/error/)
+  if (errorZipObjects.length === 0) {
+    return null
+  }
+  const errorZipObject = errorZipObjects[0]
+  return errorZipObject.async('text')
+}
+
+const getSystems = async (zip: JSZip) => {
+  const systemsZipObjects = zip.file(/system/)
+  if (systemsZipObjects.length === 0) {
+    return null
+  }
+  const systemsZipObject = systemsZipObjects[0]
   const systemsFileRaw = await systemsZipObject.async('text')
   const systemsFile = Papa.parse(systemsFileRaw.trim(), {
     delimiter: '\t'
