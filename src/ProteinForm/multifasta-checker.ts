@@ -27,7 +27,7 @@ const isFastaHeader = (line: string) => {
 }
 
 export const validateMultiFasta = (multifasta: string): boolean => {
-  const lines = multifasta.trim().split('\n')
+  const lines = multifasta.split('\n').map((l) => l.trim())
   const fastaGroups = groupByHeaders(lines, isFastaHeader)
   const reducer = (allValid: boolean, val: string[]) =>
     allValid && isFastaValid(val)
