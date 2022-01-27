@@ -1,0 +1,376 @@
+[
+  {
+    "sys_id": "UserReplicon_Gao_Her_DUF_2",
+    "type": "Gao_Her",
+    "subtype": "Gao_Her_DUF",
+    "sys_beg": "NC_013791.2_387",
+    "sys_end": "NC_013791.2_388",
+    "protein_in_syst": "NC_013791.2_387,NC_013791.2_388",
+    "genes_count": 2,
+    "name_of_profiles_in_sys": "HerA_DUF,DUF4297",
+    "core_start": 411688,
+    "core_end": 414603,
+    "contig": "NC_013791.2",
+    "contig_length": 3858997,
+    "neighborhood_start": 406688,
+    "neighborhood_end": 419603,
+    "system_type": "Gao_Her",
+    "hex_code_rainbow": "#3e65fa",
+    "genes": [
+      {
+        "start": 406724,
+        "end": 408151,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 408487,
+        "end": 409389,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 409665,
+        "end": 411044,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 411041,
+        "end": 411283,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 411688,
+        "end": 413436,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "HerA DUF"
+      },
+      {
+        "start": 413449,
+        "end": 414603,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "DUF4297"
+      },
+      {
+        "start": 415213,
+        "end": 416229,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 416889,
+        "end": 417218,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 417228,
+        "end": 417797,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 417894,
+        "end": 418076,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 418103,
+        "end": 418660,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 418699,
+        "end": 418917,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      }
+    ]
+  },
+  {
+    "sys_id": "UserReplicon_RM_Type_I_3",
+    "type": "RM",
+    "subtype": "RM_Type_I",
+    "sys_beg": "NC_013791.2_3044",
+    "sys_end": "NC_013791.2_3046",
+    "protein_in_syst": "NC_013791.2_3044,NC_013791.2_3046",
+    "genes_count": 2,
+    "name_of_profiles_in_sys": "Type_I_REases,Type_I_MTases",
+    "core_start": 3021028,
+    "core_end": 3027380,
+    "contig": "NC_013791.2",
+    "contig_length": 3858997,
+    "neighborhood_start": 3016028,
+    "neighborhood_end": 3032380,
+    "system_type": "RM",
+    "hex_code_rainbow": "#770dff",
+    "genes": [
+      {
+        "start": 3019912,
+        "end": 3020439,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3020520,
+        "end": 3020684,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3021028,
+        "end": 3024024,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "Type I REases"
+      },
+      {
+        "start": 3024040,
+        "end": 3025371,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3025368,
+        "end": 3027380,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "Type I MTases"
+      },
+      {
+        "start": 3027828,
+        "end": 3028247,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3028436,
+        "end": 3029632,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3029764,
+        "end": 3030222,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3030255,
+        "end": 3031370,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3031504,
+        "end": 3031701,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      }
+    ]
+  },
+  {
+    "sys_id": "UserReplicon_RM_Type_IIG_4",
+    "type": "RM",
+    "subtype": "RM_Type_IIG",
+    "sys_beg": "NC_013792.1_268",
+    "sys_end": "NC_013792.1_268",
+    "protein_in_syst": "NC_013792.1_268",
+    "genes_count": 1,
+    "name_of_profiles_in_sys": "Type_IIG",
+    "core_start": 266299,
+    "core_end": 268236,
+    "contig": "NC_013792.1",
+    "contig_length": 285222,
+    "neighborhood_start": 261299,
+    "neighborhood_end": 273236,
+    "system_type": "RM",
+    "hex_code_rainbow": "#770dff",
+    "genes": [
+      {
+        "start": 261409,
+        "end": 262068,
+        "strand": 1,
+        "contig": "NC_013792.1",
+        "role": "non defensive"
+      },
+      {
+        "start": 262208,
+        "end": 262357,
+        "strand": 1,
+        "contig": "NC_013792.1",
+        "role": "non defensive"
+      },
+      {
+        "start": 262354,
+        "end": 262713,
+        "strand": 1,
+        "contig": "NC_013792.1",
+        "role": "non defensive"
+      },
+      {
+        "start": 262667,
+        "end": 263167,
+        "strand": 1,
+        "contig": "NC_013792.1",
+        "role": "non defensive"
+      },
+      {
+        "start": 263133,
+        "end": 263972,
+        "strand": 1,
+        "contig": "NC_013792.1",
+        "role": "non defensive"
+      },
+      {
+        "start": 264641,
+        "end": 265765,
+        "strand": 1,
+        "contig": "NC_013792.1",
+        "role": "non defensive"
+      },
+      {
+        "start": 266299,
+        "end": 268236,
+        "strand": 1,
+        "contig": "NC_013792.1",
+        "role": "Type IIG"
+      },
+      {
+        "start": 268226,
+        "end": 269194,
+        "strand": 1,
+        "contig": "NC_013792.1",
+        "role": "non defensive"
+      },
+      {
+        "start": 269880,
+        "end": 271103,
+        "strand": -1,
+        "contig": "NC_013792.1",
+        "role": "non defensive"
+      },
+      {
+        "start": 271637,
+        "end": 272515,
+        "strand": -1,
+        "contig": "NC_013792.1",
+        "role": "non defensive"
+      },
+      {
+        "start": 272752,
+        "end": 272865,
+        "strand": 1,
+        "contig": "NC_013792.1",
+        "role": "non defensive"
+      },
+      {
+        "start": 273076,
+        "end": 273216,
+        "strand": 1,
+        "contig": "NC_013792.1",
+        "role": "non defensive"
+      }
+    ]
+  },
+  {
+    "sys_id": "UserReplicon_AbiH_1",
+    "type": "AbiH",
+    "subtype": "AbiH",
+    "sys_beg": "NC_013791.2_3582",
+    "sys_end": "NC_013791.2_3582",
+    "protein_in_syst": "NC_013791.2_3582",
+    "genes_count": 1,
+    "name_of_profiles_in_sys": "AbiH",
+    "core_start": 3572297,
+    "core_end": 3573016,
+    "contig": "NC_013791.2",
+    "contig_length": 3858997,
+    "neighborhood_start": 3567297,
+    "neighborhood_end": 3578016,
+    "system_type": "AbiH",
+    "hex_code_rainbow": "#ff2613",
+    "genes": [
+      {
+        "start": 3567715,
+        "end": 3568527,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3569737,
+        "end": 3570054,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3570051,
+        "end": 3570407,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3570455,
+        "end": 3572035,
+        "strand": 1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3572297,
+        "end": 3573016,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "AbiH"
+      },
+      {
+        "start": 3573185,
+        "end": 3574492,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3574597,
+        "end": 3576162,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      },
+      {
+        "start": 3576618,
+        "end": 3577643,
+        "strand": -1,
+        "contig": "NC_013791.2",
+        "role": "non defensive"
+      }
+    ]
+  }
+]
