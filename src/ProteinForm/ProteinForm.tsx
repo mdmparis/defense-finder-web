@@ -8,7 +8,7 @@ type Pipeline = 'proteic' | 'nucleic' | 'nucleicCrispr'
 
 const pipelines = {
   proteic: {
-    wsId: 'c913f35a-b4ae-40d0-853b-f5b2e1adb7a9',
+    wsId: 'fd689880-c85d-4ea9-bb6b-8be106dc8611',
     dfTaskId: '4aad3b99-1908-42b3-a1cd-4788f058fe45',
   },
   nucleic: {
@@ -83,7 +83,7 @@ export function ProteinForm() {
           <option value="proteic">Proteic fasta</option>
         </select>
       </div>
-      <div className="border p-6 mb-6 bg-white">
+      <div className="border px-6 pt-6 pb-3 mb-6 bg-white">
         <IframeResizer
           key={pipelineType}
           title="exomodule-defense-finder"
