@@ -4,9 +4,24 @@ import { Err } from '../Results/Err'
 import IframeResizer from 'iframe-resizer-react'
 import { Visualization } from '../Visualization/Visualization'
 
-const taskId = '4aad3b99-1908-42b3-a1cd-4788f058fe45' // TODO
+type Pipeline = 'proteic' | 'nucleic' | 'nucleicCrispr'
 
-const getDfOutput = (outputs: any) => {
+const pipelines = {
+  proteic: {
+    wsId: 'c913f35a-b4ae-40d0-853b-f5b2e1adb7a9',
+    dfTaskId: '4aad3b99-1908-42b3-a1cd-4788f058fe45',
+  },
+  nucleic: {
+    wsId: '323e2958-b975-4aad-9393-cf63df727674',
+    dfTaskId: '4aad3b99-1908-42b3-a1cd-4788f058fe45',
+  },
+  nucleicCrispr: {
+    wsId: '6081e1e9-e5ea-4e78-a521-e3183e0cb4b3',
+    dfTaskId: '4aad3b99-1908-42b3-a1cd-4788f058fe45',
+  },
+}
+
+const getDfOutput = (taskId: string, outputs: any) => {
   return outputs[taskId][0]
 }
 
@@ -16,6 +31,7 @@ export function ProteinForm() {
   const [vizData, setVizData] = useState<
     { contigData: any; systemData: any } | undefined
   >()
+  const [pipelineType, setPipelineType] = useState<Pipeline>('nucleic')
 
   const resetResults = () => {
     setSystems(undefined)
@@ -27,7 +43,6 @@ export function ProteinForm() {
     const bytes = await response.blob()
     const [error, systems] = await getResult(bytes)
     if (systems) {
-      console.log('systems', systems)
       setSystems(systems as any)
     } else {
       setError(error)
@@ -41,7 +56,7 @@ export function ProteinForm() {
         console.log('event', event)
         const message = event.data.message
         if (message.type === 'RUN_OUTPUTS') {
-          const dfOutput = getDfOutput(message.outputs)
+          const dfOutput = getDfOutput(pipelineType, message.outputs)
           loadSystems(dfOutput.url)
         } else if (message.type === 'NAV_TO_NEW_RUN') {
           resetResults()
@@ -50,16 +65,32 @@ export function ProteinForm() {
     }
     window.addEventListener('message', listener)
     return () => window.removeEventListener('message', listener)
-  }, [])
+  }, [pipelineType])
 
   return (
     <div className="container mx-auto relative">
-      <IframeResizer
-        title="exomodule-defense-finder"
-        src="http://localhost:3001/ws/f0479f93-370f-4cfc-9308-256d952ba213"
-        style={{ height: '100%', minHeight: '100%', width: '100%' }}
-        className="mb-8"
-      />
+      <div className="border p-6 mb-6 bg-white">
+        <div className="mb-2">Select your pipeline:</div>
+        <select
+          className="py-2 pl-2 bg-white border"
+          onChange={(e) => setPipelineType(e.target.value as any)}
+          value={pipelineType}
+        >
+          <option value="nucleic">Nucleic fasta</option>
+          <option value="nucleicCrispr">
+            Nucleic fasta with CRISPR array detection
+          </option>
+          <option value="proteic">Proteic fasta</option>
+        </select>
+      </div>
+      <div className="border p-6 mb-6 bg-white">
+        <IframeResizer
+          key={pipelineType}
+          title="exomodule-defense-finder"
+          src={`http://localhost:3001/ws/${pipelines[pipelineType].wsId}`}
+          style={{ height: '100%', minHeight: '100%', width: '100%' }}
+        />
+      </div>
 
       {vizData && vizData.contigData && vizData.systemData ? (
         <Visualization

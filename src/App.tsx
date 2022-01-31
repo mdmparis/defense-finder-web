@@ -1,12 +1,12 @@
-import "./App.css";
-import { ProteinForm } from "./ProteinForm/ProteinForm";
-import { Logo } from "./Logo";
-import { BrowserRouter as Router } from "react-router-dom";
+import './App.css'
+import { ProteinForm } from './ProteinForm/ProteinForm'
+import { Logo } from './Logo'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 function AppContent() {
   return (
     <div className="flex flex-col justify-between min-h-full">
-      <header className="mb-4 p-5 flex flex-row justify-between items-center border-b">
+      <header className="p-5 flex flex-row justify-between items-center border-b">
         <Logo />
         <div>
           <div className="text-sm text-gray-400">
@@ -15,11 +15,11 @@ function AppContent() {
           <div className="text-sm text-shrimp">By MDM Labs, Paris</div>
         </div>
       </header>
-      <div className="flex-grow">
+      <div className="flex-grow pt-4 pb-8 bg-gray-100">
         <ProteinForm />
       </div>
       <footer>
-        <div className="border-t mt-8">
+        <div className="border-t">
           <div className="p-4 text-sm container mx-auto">
             <div className="mb-1">
               If you are using DefenseFinder please cite:
@@ -45,7 +45,7 @@ function AppContent() {
         </div>
       </footer>
     </div>
-  );
+  )
 }
 
 function App() {
@@ -53,7 +53,7 @@ function App() {
     <Router>
       <AppContent />
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
