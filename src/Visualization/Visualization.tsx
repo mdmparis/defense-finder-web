@@ -22,6 +22,7 @@ export const Visualization = ({
 
   return (
     <div
+      className="border mb-6"
       style={{
         position: 'relative',
         width: '100%',

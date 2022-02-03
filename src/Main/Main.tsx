@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Systems, getResult } from '../Results/Systems'
-import { Err } from '../Results/Err'
+import { Systems, getResult } from '../Systems/Systems'
+import { Err } from '../Systems/Err'
 import IframeResizer from 'iframe-resizer-react'
 import { Visualization } from '../Visualization/Visualization'
+import { getZipFromBytes, getFileAsJSON } from '../Visualization/viz'
 
 type Pipeline = 'proteic' | 'nucleic' | 'nucleicCrispr'
 
@@ -14,18 +15,33 @@ const pipelines = {
   nucleic: {
     wsId: '323e2958-b975-4aad-9393-cf63df727674',
     dfTaskId: '4aad3b99-1908-42b3-a1cd-4788f058fe45',
+    dfOutputId: 'ff78345a-1693-4775-9765-91b6014b01c4',
+    vizOutputId: 'c28a9f44-b717-40f3-8c28-87e6407511a2',
   },
   nucleicCrispr: {
     wsId: '6081e1e9-e5ea-4e78-a521-e3183e0cb4b3',
     dfTaskId: '4aad3b99-1908-42b3-a1cd-4788f058fe45',
+    dfOutputId: 'ff78345a-1693-4775-9765-91b6014b01c4',
+    vizOutputId: 'c28a9f44-b717-40f3-8c28-87e6407511a2',
   },
 }
 
-const getDfOutput = (taskId: string, outputs: any) => {
-  return outputs[taskId][0]
+const getDfOutput = (pipelineType: Pipeline, outputs: any) => {
+  return outputs[pipelines[pipelineType].dfTaskId].find(
+    (o: any) => o.url.indexOf('defense_finder') > -1
+  )
 }
 
-export function ProteinForm() {
+const getVizOutput = (
+  pipelineType: 'nucleic' | 'nucleicCrispr',
+  outputs: any
+) => {
+  return outputs[pipelines[pipelineType].dfTaskId].find(
+    (o: any) => o.url.indexOf('visualization_data') > -1
+  )
+}
+
+export function Main() {
   const [systems, setSystems] = useState()
   const [error, setError] = useState<string | undefined>()
   const [vizData, setVizData] = useState<
@@ -35,6 +51,7 @@ export function ProteinForm() {
 
   const resetResults = () => {
     setSystems(undefined)
+    setVizData(undefined)
     setError(undefined)
   }
 
@@ -49,15 +66,32 @@ export function ProteinForm() {
     }
   }
 
+  const loadViz = async (vizUrl: string) => {
+    try {
+      const vizRes = await fetch(vizUrl)
+      const vizBytes = await vizRes.blob()
+      const vizZip = await getZipFromBytes(vizBytes)
+      const contigData = await getFileAsJSON(vizZip, 'contigs')
+      const systemData = await getFileAsJSON(vizZip, 'systems')
+      setVizData({ contigData, systemData })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   useEffect(() => {
     const listener = (event: any) => {
       if (typeof event.data !== 'object' || !event.data) return
       if (event.data.emitter === 'exomodule') {
-        console.log('event', event)
         const message = event.data.message
         if (message.type === 'RUN_OUTPUTS') {
           const dfOutput = getDfOutput(pipelineType, message.outputs)
           loadSystems(dfOutput.url)
+
+          if (pipelineType === 'nucleic' || pipelineType === 'nucleicCrispr') {
+            const vizSystemOutput = getVizOutput(pipelineType, message.outputs)
+            loadViz(vizSystemOutput.url)
+          }
         } else if (message.type === 'NAV_TO_NEW_RUN') {
           resetResults()
         }
@@ -98,7 +132,7 @@ export function ProteinForm() {
           systemData={vizData.systemData}
         />
       ) : null}
-      <div className="p-1">
+      <div>
         {systems ? (
           <Systems systems={systems} />
         ) : error ? (

@@ -1,5 +1,5 @@
 import './App.css'
-import { ProteinForm } from './ProteinForm/ProteinForm'
+import { Main } from './Main/Main'
 import { Logo } from './Logo'
 import { BrowserRouter as Router } from 'react-router-dom'
 
@@ -16,7 +16,7 @@ function AppContent() {
         </div>
       </header>
       <div className="flex-grow pt-4 pb-8 bg-gray-100">
-        <ProteinForm />
+        <Main />
       </div>
       <footer>
         <div className="border-t">
