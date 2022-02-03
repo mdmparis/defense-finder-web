@@ -9,17 +9,17 @@ type Pipeline = 'proteic' | 'nucleic' | 'nucleicCrispr'
 
 const pipelines = {
   proteic: {
-    wsId: 'fd689880-c85d-4ea9-bb6b-8be106dc8611',
+    wsId: '4fb04f3b-a258-457a-a171-34745da60e01',
     dfTaskId: '4aad3b99-1908-42b3-a1cd-4788f058fe45',
   },
   nucleic: {
-    wsId: '323e2958-b975-4aad-9393-cf63df727674',
+    wsId: '03a30b54-4e97-4f77-acc0-2ddc1e3716ad',
     dfTaskId: '4aad3b99-1908-42b3-a1cd-4788f058fe45',
     dfOutputId: 'ff78345a-1693-4775-9765-91b6014b01c4',
     vizOutputId: 'c28a9f44-b717-40f3-8c28-87e6407511a2',
   },
   nucleicCrispr: {
-    wsId: '6081e1e9-e5ea-4e78-a521-e3183e0cb4b3',
+    wsId: '861ca794-6f0f-4b31-a1ca-961e0449bb95',
     dfTaskId: '4aad3b99-1908-42b3-a1cd-4788f058fe45',
     dfOutputId: 'ff78345a-1693-4775-9765-91b6014b01c4',
     vizOutputId: 'c28a9f44-b717-40f3-8c28-87e6407511a2',
@@ -42,6 +42,7 @@ const getVizOutput = (
 }
 
 export function Main() {
+  const [showPipelineSelect, setShowPipelineSelect] = useState(true)
   const [systems, setSystems] = useState()
   const [error, setError] = useState<string | undefined>()
   const [vizData, setVizData] = useState<
@@ -50,6 +51,7 @@ export function Main() {
   const [pipelineType, setPipelineType] = useState<Pipeline>('nucleic')
 
   const resetResults = () => {
+    setShowPipelineSelect(true)
     setSystems(undefined)
     setVizData(undefined)
     setError(undefined)
@@ -94,6 +96,8 @@ export function Main() {
           }
         } else if (message.type === 'NAV_TO_NEW_RUN') {
           resetResults()
+        } else if (message.type === 'RUN_SUBMITTED') {
+          setShowPipelineSelect(false)
         }
       }
     }
@@ -103,25 +107,27 @@ export function Main() {
 
   return (
     <div className="container mx-auto relative">
-      <div className="border p-6 mb-6 bg-white">
-        <div className="mb-2">Select your pipeline:</div>
-        <select
-          className="py-2 pl-2 bg-white border"
-          onChange={(e) => setPipelineType(e.target.value as any)}
-          value={pipelineType}
-        >
-          <option value="nucleic">Nucleic fasta</option>
-          <option value="nucleicCrispr">
-            Nucleic fasta with CRISPR array detection
-          </option>
-          <option value="proteic">Proteic fasta</option>
-        </select>
-      </div>
+      {showPipelineSelect ? (
+        <div className="border p-6 mb-6 bg-white">
+          <div className="mb-2">Select your pipeline:</div>
+          <select
+            className="py-2 pl-2 bg-white border"
+            onChange={(e) => setPipelineType(e.target.value as any)}
+            value={pipelineType}
+          >
+            <option value="nucleic">Nucleic fasta</option>
+            <option value="nucleicCrispr">
+              Nucleic fasta with CRISPR array detection
+            </option>
+            <option value="proteic">Proteic fasta</option>
+          </select>
+        </div>
+      ) : null}
       <div className="border px-6 pt-6 pb-3 mb-6 bg-white">
         <IframeResizer
           key={pipelineType}
           title="exomodule-defense-finder"
-          src={`http://localhost:3001/ws/${pipelines[pipelineType].wsId}`}
+          src={`https://app.exomodule.com/ws/${pipelines[pipelineType].wsId}`}
           style={{ height: '100%', minHeight: '100%', width: '100%' }}
         />
       </div>

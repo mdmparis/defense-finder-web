@@ -24,7 +24,7 @@ function AppContent() {
             <div className="mb-1">
               If you are using DefenseFinder please cite:
             </div>
-            <ul className="pl-4 text-gray-500">
+            <ul className="pl-4 text-gray-500 mb-2">
               <li>
                 - "Systematic and quantitative view of the antiviral arsenal of
                 prokaryotes" bioRxiv
@@ -41,6 +41,17 @@ function AppContent() {
                 <i>Abby S., Néron B.,Ménager H., Touchon M. Rocha EPC.</i>
               </li>
             </ul>
+            <div className="mb-1">
+              Consult the{' '}
+              <a
+                className="text-shrimp"
+                href="https://github.com/mdmparis/defense-finder-models/blob/master/List_system_article.md"
+                target="_blank"
+                rel="noreferrer"
+              >
+                list of systems
+              </a>
+            </div>
           </div>
         </div>
       </footer>
