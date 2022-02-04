@@ -2,7 +2,6 @@ import JSZip from 'jszip'
 
 export const getFileAsJSON = async (zip: JSZip, matcher: string) => {
   const zipObjects = zip.file(new RegExp(matcher))
-  debugger
   if (zipObjects.length === 0) {
     console.log('no file')
     return null
