@@ -42,6 +42,7 @@ const getVizOutput = (
 }
 
 export function Main() {
+  const [showPipelineSelect, setShowPipelineSelect] = useState(true)
   const [systems, setSystems] = useState()
   const [error, setError] = useState<string | undefined>()
   const [vizData, setVizData] = useState<
@@ -50,6 +51,7 @@ export function Main() {
   const [pipelineType, setPipelineType] = useState<Pipeline>('nucleic')
 
   const resetResults = () => {
+    setShowPipelineSelect(true)
     setSystems(undefined)
     setVizData(undefined)
     setError(undefined)
@@ -94,6 +96,8 @@ export function Main() {
           }
         } else if (message.type === 'NAV_TO_NEW_RUN') {
           resetResults()
+        } else if (message.type === 'RUN_SUBMITTED') {
+          setShowPipelineSelect(false)
         }
       }
     }
@@ -103,20 +107,22 @@ export function Main() {
 
   return (
     <div className="container mx-auto relative">
-      <div className="border p-6 mb-6 bg-white">
-        <div className="mb-2">Select your pipeline:</div>
-        <select
-          className="py-2 pl-2 bg-white border"
-          onChange={(e) => setPipelineType(e.target.value as any)}
-          value={pipelineType}
-        >
-          <option value="nucleic">Nucleic fasta</option>
-          <option value="nucleicCrispr">
-            Nucleic fasta with CRISPR array detection
-          </option>
-          <option value="proteic">Proteic fasta</option>
-        </select>
-      </div>
+      {showPipelineSelect ? (
+        <div className="border p-6 mb-6 bg-white">
+          <div className="mb-2">Select your pipeline:</div>
+          <select
+            className="py-2 pl-2 bg-white border"
+            onChange={(e) => setPipelineType(e.target.value as any)}
+            value={pipelineType}
+          >
+            <option value="nucleic">Nucleic fasta</option>
+            <option value="nucleicCrispr">
+              Nucleic fasta with CRISPR array detection
+            </option>
+            <option value="proteic">Proteic fasta</option>
+          </select>
+        </div>
+      ) : null}
       <div className="border px-6 pt-6 pb-3 mb-6 bg-white">
         <IframeResizer
           checkOrigin={[
