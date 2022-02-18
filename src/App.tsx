@@ -41,7 +41,7 @@ function AppContent() {
                 <i>Abby S., Néron B.,Ménager H., Touchon M. Rocha EPC.</i>
               </li>
             </ul>
-            <div className="mb-1">
+            <div>
               The list of systems is{' '}
               <a
                 className="text-shrimp"
@@ -50,6 +50,17 @@ function AppContent() {
                 rel="noreferrer"
               >
                 available here.
+              </a>
+            </div>
+            <div className="mb-1">
+              Please report any issue on our{' '}
+              <a
+                className="text-shrimp"
+                href="https://github.com/mdmparis/defense-finder/issues"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub page.
               </a>
             </div>
           </div>
