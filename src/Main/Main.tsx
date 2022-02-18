@@ -10,7 +10,7 @@ type Pipeline = 'proteic' | 'nucleic' | 'nucleicCrispr'
 const pipelines = {
   proteic: {
     wsId: 'b0bd9f02-5ac8-4780-b915-de1425299795',
-    dfTaskId: '4aad3b99-1908-42b3-a1cd-4788f058fe45',
+    dfTaskId: 'fd689880-c85d-4ea9-bb6b-8be106dc8611',
   },
   nucleic: {
     wsId: '3b3dfbe1-ff29-4498-8ac3-2505a98a0e79',
